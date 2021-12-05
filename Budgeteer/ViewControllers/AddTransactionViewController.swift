@@ -10,6 +10,7 @@ class AddTransactionViewController: UIViewController {
     @IBOutlet weak var amountToAddOutlet: UITextField!
     @IBOutlet weak var descriptionOutlet: UITextField!
     @IBOutlet weak var addButtonOutlet: UIButton!
+    @IBOutlet weak var invalidAmountOutlet: UILabel!
     
     weak var delegate: AddTransactionDelegate?
     
@@ -32,11 +33,19 @@ class AddTransactionViewController: UIViewController {
     @IBAction func addTransactionButtonAction(_ sender: Any) {
         guard
             let unwrappedAmountToAdd = amountToAddOutlet.text,
-            var doubleAmountToAdd: Double = Double(unwrappedAmountToAdd),
+            var doubleAmountToAdd: Double = Double(unwrappedAmountToAdd)
+        else {
+            invalidAmountOutlet.isHidden = false
+            return
+        }
+        
+        guard
             let unwrappedDescription = descriptionOutlet.text
         else {
             return
         }
+        
+        invalidAmountOutlet.isHidden = true
         
         if addPositiveFunds == false {
             doubleAmountToAdd = doubleAmountToAdd * -1

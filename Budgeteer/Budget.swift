@@ -9,6 +9,7 @@ struct Budget {
 
 struct Transaction {
     var transactionId: Int
+    var budgetId: Int
     var amount: Double
     var description: String
 }

@@ -129,11 +129,24 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="* Invalid Input: Must input a number" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Clf-Me-Fgb">
+                                <rect key="frame" x="16" y="356" width="215.5" height="16"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" systemColor="systemRedColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="* Invalid Input: Must contain at least one character" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KrV-8D-MzL">
+                                <rect key="frame" x="16" y="253.5" width="304.5" height="16"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" systemColor="systemRedColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="UeI-le-obj" secondAttribute="bottom" id="1wO-NB-wYh"/>
+                            <constraint firstItem="Clf-Me-Fgb" firstAttribute="leading" secondItem="TlY-kN-gRY" secondAttribute="leading" id="CUt-f7-pQ2"/>
                             <constraint firstItem="RE2-gG-9Fs" firstAttribute="top" secondItem="Fo4-nE-hJG" secondAttribute="bottom" constant="32" id="FD6-P5-IJQ"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="cnN-Dc-fi3" secondAttribute="trailing" constant="16" id="Ko5-OR-uIP"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="UeI-le-obj" secondAttribute="trailing" id="LYi-Wb-LHT"/>
@@ -150,16 +163,19 @@
                             <constraint firstItem="UeI-le-obj" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="XEc-vd-DdY"/>
                             <constraint firstItem="lRg-MA-bEP" firstAttribute="centerX" secondItem="TlY-kN-gRY" secondAttribute="centerX" id="XYC-PM-3Hf"/>
                             <constraint firstItem="W29-4r-msw" firstAttribute="centerX" secondItem="Pz3-Na-7be" secondAttribute="centerX" id="dxC-YE-Jay"/>
+                            <constraint firstItem="Clf-Me-Fgb" firstAttribute="top" secondItem="TlY-kN-gRY" secondAttribute="bottom" constant="8" id="ftQ-iE-ZRS"/>
                             <constraint firstItem="TlY-kN-gRY" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="gVY-s3-g9T"/>
                             <constraint firstItem="RE2-gG-9Fs" firstAttribute="centerX" secondItem="Fo4-nE-hJG" secondAttribute="centerX" id="hDH-T8-JOM"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="TlY-kN-gRY" secondAttribute="trailing" constant="16" id="hEY-Go-EYC"/>
                             <constraint firstItem="W29-4r-msw" firstAttribute="top" secondItem="Pz3-Na-7be" secondAttribute="bottom" constant="16" id="hYa-dQ-Izw"/>
+                            <constraint firstItem="KrV-8D-MzL" firstAttribute="top" secondItem="W29-4r-msw" secondAttribute="bottom" constant="8" id="hg0-Jp-tDO"/>
                             <constraint firstItem="W29-4r-msw" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="kWt-tH-kAB"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Fo4-nE-hJG" secondAttribute="trailing" id="opF-25-sLz"/>
                             <constraint firstItem="UeI-le-obj" firstAttribute="centerX" secondItem="RE2-gG-9Fs" secondAttribute="centerX" id="ozp-Tk-uR7"/>
                             <constraint firstItem="TlY-kN-gRY" firstAttribute="centerX" secondItem="j7H-ma-4gm" secondAttribute="centerX" id="qmb-dJ-Rk7"/>
                             <constraint firstItem="j7H-ma-4gm" firstAttribute="top" secondItem="W29-4r-msw" secondAttribute="bottom" constant="32" id="rmn-as-6Pk"/>
                             <constraint firstItem="cnN-Dc-fi3" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="32" id="w0J-wk-hWp"/>
+                            <constraint firstItem="KrV-8D-MzL" firstAttribute="leading" secondItem="W29-4r-msw" secondAttribute="leading" id="xEL-dQ-zS2"/>
                             <constraint firstItem="lRg-MA-bEP" firstAttribute="top" secondItem="TlY-kN-gRY" secondAttribute="bottom" constant="32" id="xJ6-Mk-8Mk"/>
                         </constraints>
                     </view>
@@ -167,6 +183,8 @@
                     <connections>
                         <outlet property="createButtonOutlet" destination="lRg-MA-bEP" id="H1B-TZ-STL"/>
                         <outlet property="deckTableView" destination="UeI-le-obj" id="xqL-am-jpR"/>
+                        <outlet property="invalidAmountOutlet" destination="Clf-Me-Fgb" id="BiQ-V0-sen"/>
+                        <outlet property="invalidNameOutlet" destination="KrV-8D-MzL" id="LTR-Hg-zzd"/>
                         <outlet property="nameNewBudgetInput" destination="W29-4r-msw" id="ucv-hJ-LKg"/>
                         <outlet property="startingAmountInput" destination="TlY-kN-gRY" id="EaB-Yi-vXT"/>
                     </connections>
@@ -351,6 +369,12 @@
                                     <action selector="addTransactionButtonAction:" destination="ppT-KK-Kcp" eventType="touchUpInside" id="vuN-Ib-bQL"/>
                                 </connections>
                             </button>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="* Invalid Input: Input must be a number" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MiC-xH-zSt">
+                                <rect key="frame" x="57" y="285" width="234.5" height="16"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" systemColor="systemRedColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="455-tJ-6z2"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -361,10 +385,12 @@
                             <constraint firstItem="IsS-vv-cb6" firstAttribute="centerX" secondItem="Lle-4b-TZa" secondAttribute="centerX" id="ExR-36-pex"/>
                             <constraint firstItem="QQT-NH-El0" firstAttribute="centerX" secondItem="d0V-8I-J5T" secondAttribute="centerX" id="Jb1-hr-542"/>
                             <constraint firstItem="8k4-43-xPN" firstAttribute="centerX" secondItem="QQT-NH-El0" secondAttribute="centerX" id="K4b-yN-pC7"/>
+                            <constraint firstItem="MiC-xH-zSt" firstAttribute="leading" secondItem="IsS-vv-cb6" secondAttribute="leading" id="Oze-Wm-ktA"/>
                             <constraint firstItem="Lle-4b-TZa" firstAttribute="centerX" secondItem="5Ba-Op-JhE" secondAttribute="centerX" id="PKJ-57-phe"/>
                             <constraint firstItem="IsS-vv-cb6" firstAttribute="top" secondItem="Lle-4b-TZa" secondAttribute="bottom" constant="32" id="TKo-dy-MFg"/>
                             <constraint firstItem="d0V-8I-J5T" firstAttribute="top" secondItem="IsS-vv-cb6" secondAttribute="bottom" constant="64" id="VrL-cD-KNL"/>
                             <constraint firstItem="IsS-vv-cb6" firstAttribute="top" secondItem="Lle-4b-TZa" secondAttribute="bottom" constant="32" id="XZc-Ro-Te6"/>
+                            <constraint firstItem="MiC-xH-zSt" firstAttribute="top" secondItem="IsS-vv-cb6" secondAttribute="bottom" constant="8" id="bZx-bn-wgK"/>
                             <constraint firstItem="8k4-43-xPN" firstAttribute="top" secondItem="QQT-NH-El0" secondAttribute="bottom" constant="64" id="u6V-gz-NLM"/>
                         </constraints>
                     </view>
@@ -374,6 +400,7 @@
                         <outlet property="amountToAddLabelOutlet" destination="Lle-4b-TZa" id="gm1-L6-Iy8"/>
                         <outlet property="amountToAddOutlet" destination="IsS-vv-cb6" id="JWm-Tx-3SR"/>
                         <outlet property="descriptionOutlet" destination="QQT-NH-El0" id="AzY-pP-lAY"/>
+                        <outlet property="invalidAmountOutlet" destination="MiC-xH-zSt" id="cUM-Ul-v12"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iMR-CX-p3a" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -476,6 +503,9 @@
         </systemColor>
         <systemColor name="systemGreenColor">
             <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

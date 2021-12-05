@@ -138,9 +138,6 @@ class CurrentBudgetViewController: UIViewController, UITableViewDelegate, UITabl
     }
     
     func addTransaction(_ amountToAdd: Double, _ description: String) {
-        print("amountToAdd: \(amountToAdd)")
-        print("description: \(description)")
-        
         guard
             let unwrappedThisBudget = thisBudget,
             let unwrappedTransactions = unwrappedThisBudget.transactions
@@ -152,7 +149,7 @@ class CurrentBudgetViewController: UIViewController, UITableViewDelegate, UITabl
         if unwrappedTransactions.count > 0 {
             newTransactionId = unwrappedTransactions[unwrappedTransactions.count-1].transactionId + 1
         }
-        let newTransaction: Transaction = Transaction(transactionId: newTransactionId, amount: amountToAdd, description: description)
+        let newTransaction: Transaction = Transaction(transactionId: newTransactionId, budgetId: unwrappedThisBudget.budgetId, amount: amountToAdd, description: description)
         
         thisBudget?.transactions?.append(newTransaction)
         

@@ -2,30 +2,29 @@ import UIKit
 
 class BudgeteerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, DeckCellProtocol, CurrentBudgetDeleteTransactionDelegate {
     
-//    struct Constants {
-//        static let deckCellIdentifier = "deckCell"
-//    }
-    
     var budgetDeck: [Budget] = [
-        Budget(budgetId: 0, name: "Bob1", balance: 2.22, transactions: [Transaction(transactionId: 1, amount: 2.22, description: "Initial Funds")]),
-        Budget(budgetId: 1, name: "Bob2", balance: 4.1, transactions: [Transaction(transactionId: 1, amount: 4.1, description: "Initial Funds")]),
-        Budget(budgetId: 2, name: "Bob3", balance: 6.543, transactions: [Transaction(transactionId: 1, amount: 6.543, description: "Initial Funds")]),
-        Budget(budgetId: 3, name: "Bob4", balance: 8.789, transactions: [Transaction(transactionId: 1, amount: 8.789, description: "Initial Funds")]),
-        Budget(budgetId: 4, name: "Bob5", balance: 10, transactions: [Transaction(transactionId: 1, amount: 10, description: "Initial Funds")]),
-        Budget(budgetId: 5, name: "Bob6", balance: 12, transactions: [Transaction(transactionId: 1, amount: 12, description: "Initial Funds")]),
-        Budget(budgetId: 6, name: "Bob7", balance: 14, transactions: [Transaction(transactionId: 1, amount: 14, description: "Initial Funds")]),
-        Budget(budgetId: 7, name: "Bob8", balance: 16, transactions: [Transaction(transactionId: 1, amount: 16, description: "Initial Funds")]),
-        Budget(budgetId: 8, name: "Bob9", balance: 18, transactions: [Transaction(transactionId: 1, amount: 18, description: "Initial Funds")]),
-        Budget(budgetId: 9, name: "Bob10", balance: 15, transactions: [Transaction(transactionId: 1, amount: 20, description: "Initial Funds"), Transaction(transactionId: 2, amount: -5, description: "Cookie")])
+        Budget(budgetId: 0, name: "Bob1", balance: 2.22, transactions: [Transaction(transactionId: 1, budgetId: 0, amount: 2.22, description: "Initial Funds")]),
+        Budget(budgetId: 1, name: "Bob2", balance: 4.1, transactions: [Transaction(transactionId: 1, budgetId: 1, amount: 4.1, description: "Initial Funds")]),
+        Budget(budgetId: 2, name: "Bob3", balance: 6.543, transactions: [Transaction(transactionId: 1, budgetId: 2, amount: 6.543, description: "Initial Funds")]),
+        Budget(budgetId: 3, name: "Bob4", balance: 8.789, transactions: [Transaction(transactionId: 1, budgetId: 3, amount: 8.789, description: "Initial Funds")]),
+        Budget(budgetId: 4, name: "Bob5", balance: 10, transactions: [Transaction(transactionId: 1, budgetId: 4, amount: 10, description: "Initial Funds")]),
+        Budget(budgetId: 5, name: "Bob6", balance: 12, transactions: [Transaction(transactionId: 1, budgetId: 5, amount: 12, description: "Initial Funds")]),
+        Budget(budgetId: 6, name: "Bob7", balance: 14, transactions: [Transaction(transactionId: 1, budgetId: 6, amount: 14, description: "Initial Funds")]),
+        Budget(budgetId: 7, name: "Bob8", balance: 16, transactions: [Transaction(transactionId: 1, budgetId: 7, amount: 16, description: "Initial Funds")]),
+        Budget(budgetId: 8, name: "Bob9", balance: 18, transactions: [Transaction(transactionId: 1, budgetId: 8, amount: 18, description: "Initial Funds")]),
+        Budget(budgetId: 9, name: "Bob10", balance: 15, transactions: [Transaction(transactionId: 1, budgetId: 9, amount: 20, description: "Initial Funds"), Transaction(transactionId: 2, budgetId: 9, amount: -5, description: "Cookie")])
     ]
     
     var selectedBudget: Budget?
     var newBudgetToCreate: Budget?
+    var createButtonPressed: Bool = false
 
     @IBOutlet weak var nameNewBudgetInput: UITextField!
     @IBOutlet weak var startingAmountInput: UITextField!
     @IBOutlet weak var deckTableView: UITableView!
     @IBOutlet weak var createButtonOutlet: UIButton!
+    @IBOutlet weak var invalidNameOutlet: UILabel!
+    @IBOutlet weak var invalidAmountOutlet: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,37 +33,17 @@ class BudgeteerViewController: UIViewController, UITableViewDelegate, UITableVie
         
         deckTableView.delegate = self
         deckTableView.dataSource = self
-        
-//        deckTableView.register(DeckCell.self, forCellReuseIdentifier: Constants.deckCellIdentifier)
-        
-//        print("Constants.deckCellIdentifier: \(Constants.deckCellIdentifier)");
     }
     
-//    var nameNewBudget: String? {
-//        guard
-//            let userInput = nameNewBudgetInput.text
-//        else {
-//            return ""
-//        }
-//        return userInput
-//    }
-//
-//    var startingAmount: Double? {
-//        guard
-//            let userInput = startingAmountInput.text,
-//            let newStartingAmount = Double(userInput)
-//        else {
-//            return nil
-//        }
-//        return newStartingAmount
-//    }
-    
     @IBAction func createBudgetButtonAction(_ sender: UIButton) {
+        createButtonPressed = true
+        
         guard
             let nameNewBudget: String = nameNewBudgetInput.text,
             let stringStartingamount = startingAmountInput.text,
             let startingAmount: Double = Double(stringStartingamount)
         else {
+            print("Before return")
             return
         }
         
@@ -72,7 +51,7 @@ class BudgeteerViewController: UIViewController, UITableViewDelegate, UITableVie
         if budgetDeck.count > 0 {
             newBudgetId = budgetDeck[budgetDeck.count-1].budgetId+1
         }
-        let initialTransaction: Transaction = Transaction(transactionId: 1, amount: startingAmount, description: "Initial Funds")
+        let initialTransaction: Transaction = Transaction(transactionId: 1, budgetId: newBudgetId, amount: startingAmount, description: "Initial Funds")
         newBudgetToCreate = Budget(budgetId: newBudgetId, name: nameNewBudget, balance: startingAmount, transactions: [initialTransaction])
         guard let newBudgetForDeck: Budget = newBudgetToCreate else {
             return
@@ -86,8 +65,8 @@ class BudgeteerViewController: UIViewController, UITableViewDelegate, UITableVie
         deckTableView.insertRows(at: [newItmeIndexPath], with: .fade)
         deckTableView.endUpdates()
         
-        nameNewBudgetInput.text = nil
-        startingAmountInput.text = nil
+//        nameNewBudgetInput.text = nil
+//        startingAmountInput.text = nil
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -96,10 +75,6 @@ class BudgeteerViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let rowNumberToDisplay = indexPath.row
-        
-//        guard let cell = tableView.dequeueReusableCell(withIdentifier: "TripCell") as? TripCell else {
-//            return UITableViewCell()
-//        }
         
         guard let cell = deckTableView.dequeueReusableCell(withIdentifier: "DeckCell") as? DeckCell else {
             return UITableViewCell()
@@ -124,17 +99,33 @@ class BudgeteerViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        if selectedBudget == nil {
-            return false
+        for i in 0..<budgetDeck.count {
+            print("budgetDeck[i]: \(budgetDeck[i])\n")
         }
+        
+        if createButtonPressed {
+            createButtonPressed = false
+            guard let testBudgetName = nameNewBudgetInput.text,
+                  testBudgetName.count > 0
+            else {
+                invalidNameOutlet.isHidden = false
+                return false
+            }
+            
+            guard let testStartingAmount = startingAmountInput.text,
+                  let _: Double = Double(testStartingAmount)
+            else {
+                invalidAmountOutlet.isHidden = false
+                return false
+            }
+        }
+        
+        nameNewBudgetInput.text = nil
+        startingAmountInput.text = nil
+        invalidNameOutlet.isHidden = true
+        invalidAmountOutlet.isHidden = true
         return true
     }
-    
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if let stationPickerVC = segue.destination as? StationPickerViewController {
-//            stationPickerVC.delegate = self
-//        }
-//    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let unwrappedBudget = selectedBudget else {
@@ -145,11 +136,6 @@ class BudgeteerViewController: UIViewController, UITableViewDelegate, UITableVie
             currentBudgetVC.thisBudget = unwrappedBudget
             currentBudgetVC.delegate = self
         }
-        
-//        if segue.destination is CurrentBudgetViewController {
-//            let currentBudgetVC = segue.destination as? CurrentBudgetViewController
-//            currentBudgetVC?.thisBudget = unwrappedBudget
-//        }
     }
     
     func deleteTransaction(_ transactionId: Int, _ newBalance: Double) {
