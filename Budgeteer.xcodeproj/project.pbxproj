@@ -16,10 +16,11 @@
 		C9B05DFB274EDB25003C097A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9B05DF9274EDB25003C097A /* LaunchScreen.storyboard */; };
 		C9B05E06274EDB25003C097A /* BudgeteerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B05E05274EDB25003C097A /* BudgeteerTests.swift */; };
 		C9B05E11274EDB25003C097A /* BudgeteerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B05E10274EDB25003C097A /* BudgeteerUITests.swift */; };
-		C9B05E1F274EDB6F003C097A /* BudgetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B05E1E274EDB6F003C097A /* BudgetModel.swift */; };
+		C9B05E1F274EDB6F003C097A /* Budget.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B05E1E274EDB6F003C097A /* Budget.swift */; };
 		C9B05E2127533003003C097A /* DeckCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B05E2027533003003C097A /* DeckCell.swift */; };
 		C9B05E2527535259003C097A /* CurrentBudgetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B05E2427535259003C097A /* CurrentBudgetViewController.swift */; };
 		C9B05E662758C88E003C097A /* TransactionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B05E652758C88E003C097A /* TransactionCell.swift */; };
+		C9E7CB95275C65F7005B2903 /* AddTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E7CB94275C65F7005B2903 /* AddTransactionViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,10 +56,11 @@
 		C9B05E0C274EDB25003C097A /* BudgeteerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BudgeteerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9B05E10274EDB25003C097A /* BudgeteerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgeteerUITests.swift; sourceTree = "<group>"; };
 		C9B05E12274EDB25003C097A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C9B05E1E274EDB6F003C097A /* BudgetModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetModel.swift; sourceTree = "<group>"; };
+		C9B05E1E274EDB6F003C097A /* Budget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Budget.swift; sourceTree = "<group>"; };
 		C9B05E2027533003003C097A /* DeckCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckCell.swift; sourceTree = "<group>"; };
 		C9B05E2427535259003C097A /* CurrentBudgetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentBudgetViewController.swift; sourceTree = "<group>"; };
 		C9B05E652758C88E003C097A /* TransactionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionCell.swift; sourceTree = "<group>"; };
+		C9E7CB94275C65F7005B2903 /* AddTransactionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,7 +118,7 @@
 				C9B05DF7274EDB25003C097A /* Assets.xcassets */,
 				C9B05DF9274EDB25003C097A /* LaunchScreen.storyboard */,
 				C9B05DFC274EDB25003C097A /* Info.plist */,
-				C9B05E1E274EDB6F003C097A /* BudgetModel.swift */,
+				C9B05E1E274EDB6F003C097A /* Budget.swift */,
 			);
 			path = Budgeteer;
 			sourceTree = "<group>";
@@ -147,6 +149,7 @@
 				C9B05E2027533003003C097A /* DeckCell.swift */,
 				C9B05E652758C88E003C097A /* TransactionCell.swift */,
 				C9A4231C2759813300E43EA2 /* TransactionDetailsViewController.swift */,
+				C9E7CB94275C65F7005B2903 /* AddTransactionViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -282,13 +285,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9B05E662758C88E003C097A /* TransactionCell.swift in Sources */,
-				C9B05E1F274EDB6F003C097A /* BudgetModel.swift in Sources */,
+				C9B05E1F274EDB6F003C097A /* Budget.swift in Sources */,
 				C9B05E2527535259003C097A /* CurrentBudgetViewController.swift in Sources */,
 				C9B05E2127533003003C097A /* DeckCell.swift in Sources */,
 				C9A4231D2759813300E43EA2 /* TransactionDetailsViewController.swift in Sources */,
 				C9B05DF3274EDB25003C097A /* BudgeteerViewController.swift in Sources */,
 				C9B05DEF274EDB25003C097A /* AppDelegate.swift in Sources */,
 				C9B05DF1274EDB25003C097A /* SceneDelegate.swift in Sources */,
+				C9E7CB95275C65F7005B2903 /* AddTransactionViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

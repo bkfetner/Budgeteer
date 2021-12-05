@@ -16,6 +16,7 @@ class TransactionDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationItem.title = "Transaction Details"
 //        print("thisTransaction: \(thisTransaction)");
         
         guard let unwrappedTransaction = thisTransaction else {

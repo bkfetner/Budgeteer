@@ -1,6 +1,6 @@
 import UIKit
 
-class BudgeteerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, DeckCellProtocol {
+class BudgeteerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, DeckCellProtocol, CurrentBudgetDeleteTransactionDelegate {
     
 //    struct Constants {
 //        static let deckCellIdentifier = "deckCell"
@@ -40,33 +40,38 @@ class BudgeteerViewController: UIViewController, UITableViewDelegate, UITableVie
 //        print("Constants.deckCellIdentifier: \(Constants.deckCellIdentifier)");
     }
     
-    var nameNewBudget: String? {
-        guard
-            let userInput = nameNewBudgetInput.text
-        else {
-            return ""
-        }
-        return userInput
-    }
-    
-    var startingAmount: Double? {
-        guard
-            let userInput = startingAmountInput.text,
-            let newStartingAmount = Double(userInput)
-        else {
-            return nil
-        }
-        return newStartingAmount
-    }
+//    var nameNewBudget: String? {
+//        guard
+//            let userInput = nameNewBudgetInput.text
+//        else {
+//            return ""
+//        }
+//        return userInput
+//    }
+//
+//    var startingAmount: Double? {
+//        guard
+//            let userInput = startingAmountInput.text,
+//            let newStartingAmount = Double(userInput)
+//        else {
+//            return nil
+//        }
+//        return newStartingAmount
+//    }
     
     @IBAction func createBudgetButtonAction(_ sender: UIButton) {
-        guard let nameNewBudget: String = nameNewBudget else {
+        guard
+            let nameNewBudget: String = nameNewBudgetInput.text,
+            let stringStartingamount = startingAmountInput.text,
+            let startingAmount: Double = Double(stringStartingamount)
+        else {
             return
         }
-        guard let startingAmount: Double = startingAmount else {
-            return
+        
+        var newBudgetId: Int = 0
+        if budgetDeck.count > 0 {
+            newBudgetId = budgetDeck[budgetDeck.count-1].budgetId+1
         }
-        let newBudgetId: Int = budgetDeck[budgetDeck.count-1].budgetId+1
         let initialTransaction: Transaction = Transaction(transactionId: 1, amount: startingAmount, description: "Initial Funds")
         newBudgetToCreate = Budget(budgetId: newBudgetId, name: nameNewBudget, balance: startingAmount, transactions: [initialTransaction])
         guard let newBudgetForDeck: Budget = newBudgetToCreate else {
@@ -80,6 +85,9 @@ class BudgeteerViewController: UIViewController, UITableViewDelegate, UITableVie
         deckTableView.beginUpdates()
         deckTableView.insertRows(at: [newItmeIndexPath], with: .fade)
         deckTableView.endUpdates()
+        
+        nameNewBudgetInput.text = nil
+        startingAmountInput.text = nil
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -135,13 +143,42 @@ class BudgeteerViewController: UIViewController, UITableViewDelegate, UITableVie
         
         if let currentBudgetVC = segue.destination as? CurrentBudgetViewController {
             currentBudgetVC.thisBudget = unwrappedBudget
-//            currentBudgetVC.delegate = self
+            currentBudgetVC.delegate = self
         }
         
 //        if segue.destination is CurrentBudgetViewController {
 //            let currentBudgetVC = segue.destination as? CurrentBudgetViewController
 //            currentBudgetVC?.thisBudget = unwrappedBudget
 //        }
+    }
+    
+    func deleteTransaction(_ transactionId: Int, _ newBalance: Double) {
+        for i in 0..<budgetDeck.count {
+            if budgetDeck[i].budgetId == selectedBudget?.budgetId {
+                guard let unwrappedTransaction = budgetDeck[i].transactions else {
+                    return
+                }
+                for j in 0..<unwrappedTransaction.count {
+                    if unwrappedTransaction[j].transactionId == transactionId {
+                        budgetDeck[i].transactions?.remove(at: j)
+                        budgetDeck[i].balance = newBalance
+                        break
+                    }
+                }
+            }
+        }
+        deckTableView.reloadData()
+    }
+    
+    func addTransaction(_ newTransaction: Transaction, _ newBalance: Double) {
+        for i in 0..<budgetDeck.count {
+            if budgetDeck[i].budgetId == selectedBudget?.budgetId {
+                budgetDeck[i].transactions?.append(newTransaction)
+                budgetDeck[i].balance = newBalance
+                break
+            }
+        }
+        deckTableView.reloadData()
     }
 }
 

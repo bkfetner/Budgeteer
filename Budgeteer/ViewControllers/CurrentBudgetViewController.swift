@@ -1,17 +1,20 @@
 import UIKit
 
-class CurrentBudgetViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, TransactionDeleteSelectionDelegate {
+protocol CurrentBudgetDeleteTransactionDelegate: AnyObject {
+    func deleteTransaction(_ transactionId: Int, _ newBalance: Double)
+    func addTransaction(_ newTransaction: Transaction, _ newBalance: Double)
+}
+
+class CurrentBudgetViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, TransactionDeleteSelectionDelegate, AddTransactionDelegate {
     
-//    struct Constants {
-//        static let transactionCellIdentifier = "transactionCell"
-//    }
+    @IBOutlet weak var currentBalanceAmount: UILabel!
+    @IBOutlet weak var transactionTableView: UITableView!
+    
+    weak var delegate: CurrentBudgetDeleteTransactionDelegate?
     
     var thisBudget: Budget?
     var selectedTransaction: Transaction?
-    
-    @IBOutlet weak var currentBalanceAmount: UILabel!
-//    @IBOutlet weak var transactionTableView: UITableView!
-    @IBOutlet weak var transactionTableView: UITableView!
+    var addPositiveFunds: Bool = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,17 +22,19 @@ class CurrentBudgetViewController: UIViewController, UITableViewDelegate, UITabl
         transactionTableView.delegate = self
         transactionTableView.dataSource = self
         
-//        transactionTableView.register(TransactionCell.self, forCellReuseIdentifier: "TransactionCell")
-        
         guard let unwrappedThisBudget = thisBudget else {
             return
         }
-        
         navigationItem.title = unwrappedThisBudget.name
         updateCurrentBalanceAmountLabel()
-//        print("unwrappedThisBudget in viewdidload: \(unwrappedThisBudget)");
-        
-//        transactionTableView.register(TransactionCell.self, forCellReuseIdentifier: "TransactionCell")
+    }
+    
+    @IBAction func addFundsButtonAction(_ sender: UIButton) {
+        addPositiveFunds = true
+    }
+    
+    @IBAction func addExpenseButtonAction(_ sender: UIButton) {
+        addPositiveFunds = false
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -58,15 +63,15 @@ class CurrentBudgetViewController: UIViewController, UITableViewDelegate, UITabl
 //        print("unwrappedTransactions: \(unwrappedTransactions)")
         let transactionSlot = unwrappedTransactions[rowNumberToDisplay]
         
-        var sign = "+"
-        let amountDouble = transactionSlot.amount
-        var amountString = String(format: "%.2f", amountDouble)
-        if(amountDouble < 0) {
-            sign = "-"
-            amountString = String(format: "%.2f", fabs(amountDouble))
-        }
+//        var sign = "+"
+//        let amountDouble = transactionSlot.amount
+//        var amountString = String(format: "%.2f", amountDouble)
+//        if(amountDouble < 0) {
+//            sign = "-"
+//            amountString = String(format: "%.2f", fabs(amountDouble))
+//        }
         
-        let textForLabel = sign + "  $" + amountString + "          " + transactionSlot.description
+//        let textForLabel = sign + "  $" + amountString + "          " + transactionSlot.description
         
 //        cell.textLabel?.text = textForLabel
         cell.update(with: transactionSlot.amount, and: transactionSlot.description)
@@ -89,20 +94,21 @@ class CurrentBudgetViewController: UIViewController, UITableViewDelegate, UITabl
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let unwrappedTransaction = selectedTransaction else {
-            return
-        }
-        
         if let transactionDetailsVC = segue.destination as? TransactionDetailsViewController {
+            guard let unwrappedTransaction = selectedTransaction else {
+                return
+            }
             transactionDetailsVC.thisTransaction = unwrappedTransaction
             transactionDetailsVC.delegate = self
+        }
+        
+        if let addFundsVC = segue.destination as? AddTransactionViewController {
+            addFundsVC.addPositiveFunds = addPositiveFunds
+            addFundsVC.delegate = self
         }
     }
     
     func transactionToDelete(_ transactionId: Int) {
-        print("transactionToDelete");
-        print("thisBudget: \(thisBudget)");
-        
         guard
             let unwrappedThisBudget = thisBudget,
             let unwrappedTransactions = unwrappedThisBudget.transactions
@@ -122,6 +128,44 @@ class CurrentBudgetViewController: UIViewController, UITableViewDelegate, UITabl
         
         thisBudget?.transactions?.remove(at: elementToDelete)
         
+        updateBudgetBalance()
+        transactionTableView.reloadData()
+        
+        guard let unwrappedBalance: Double = thisBudget?.balance else {
+            return
+        }
+        delegate?.deleteTransaction(transactionId, unwrappedBalance)
+    }
+    
+    func addTransaction(_ amountToAdd: Double, _ description: String) {
+        print("amountToAdd: \(amountToAdd)")
+        print("description: \(description)")
+        
+        guard
+            let unwrappedThisBudget = thisBudget,
+            let unwrappedTransactions = unwrappedThisBudget.transactions
+        else {
+            return
+        }
+        
+        var newTransactionId = 0;
+        if unwrappedTransactions.count > 0 {
+            newTransactionId = unwrappedTransactions[unwrappedTransactions.count-1].transactionId + 1
+        }
+        let newTransaction: Transaction = Transaction(transactionId: newTransactionId, amount: amountToAdd, description: description)
+        
+        thisBudget?.transactions?.append(newTransaction)
+        
+        updateBudgetBalance()
+        transactionTableView.reloadData()
+        
+        guard let unwrappedBalance: Double = thisBudget?.balance else {
+            return
+        }
+        delegate?.addTransaction(newTransaction, unwrappedBalance)
+    }
+    
+    func updateBudgetBalance() {
         guard
             let unwrappedThisBudget = thisBudget,
             let unwrappedTransactions = unwrappedThisBudget.transactions
@@ -133,17 +177,18 @@ class CurrentBudgetViewController: UIViewController, UITableViewDelegate, UITabl
             newBalance += unwrappedTransactions[i].amount
         }
         
-        print("newBalance: \(newBalance)")
         thisBudget?.balance = newBalance
-        transactionTableView.reloadData()
         updateCurrentBalanceAmountLabel()
-        print("thisBudget: \(thisBudget)");
     }
     
     func updateCurrentBalanceAmountLabel() {
         guard let unwrappedThisBudget = thisBudget else {
             return
         }
-        currentBalanceAmount.text = "$" + String(format: "%.2f", unwrappedThisBudget.balance)
+        if unwrappedThisBudget.balance < 0 {
+            currentBalanceAmount.text = "- $" + String(format: "%.2f", fabs(unwrappedThisBudget.balance))
+        } else {
+            currentBalanceAmount.text = "$" + String(format: "%.2f", unwrappedThisBudget.balance)
+        }
     }
 }

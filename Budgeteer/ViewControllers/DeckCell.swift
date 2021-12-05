@@ -22,12 +22,12 @@ class DeckCell: UITableViewCell {
     }
     
     func updateDeck(with updateBudgetId: Int, and updateBudgetName: String, and updateBudgetAmount: Double) {
-        print("budgetName: \(budgetName)")
-        print("budgetName.text: \(budgetName.text)")
-//        print("budgetAmount.text: \(budgetAmount.text)")
-        
         self.budgetName.text = "\(updateBudgetName)"
-        self.budgetAmount.text = "$" + String(format: "%.2f", updateBudgetAmount)
+        if updateBudgetAmount < 0 {
+            self.budgetAmount.text = "- $" + String(format: "%.2f", fabs(updateBudgetAmount))
+        } else {
+            self.budgetAmount.text = "$" + String(format: "%.2f", updateBudgetAmount)
+        }
         self.cellBudgetId = updateBudgetId
     }
     
