@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C99E781E275F52DB0034049A /* BudgetModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C99E781C275F52DB0034049A /* BudgetModel.xcdatamodeld */; };
+		C99E7820275F57590034049A /* CoreDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99E781F275F57590034049A /* CoreDataStore.swift */; };
 		C9A4231D2759813300E43EA2 /* TransactionDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A4231C2759813300E43EA2 /* TransactionDetailsViewController.swift */; };
 		C9B05DEF274EDB25003C097A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B05DEE274EDB25003C097A /* AppDelegate.swift */; };
 		C9B05DF1274EDB25003C097A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B05DF0274EDB25003C097A /* SceneDelegate.swift */; };
@@ -41,6 +43,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C99E781D275F52DB0034049A /* BudgetModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BudgetModel.xcdatamodel; sourceTree = "<group>"; };
+		C99E781F275F57590034049A /* CoreDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStore.swift; sourceTree = "<group>"; };
 		C9A4231C2759813300E43EA2 /* TransactionDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDetailsViewController.swift; sourceTree = "<group>"; };
 		C9B05DEB274EDB25003C097A /* Budgeteer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Budgeteer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9B05DEE274EDB25003C097A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -118,6 +122,8 @@
 				C9B05DF7274EDB25003C097A /* Assets.xcassets */,
 				C9B05DF9274EDB25003C097A /* LaunchScreen.storyboard */,
 				C9B05DFC274EDB25003C097A /* Info.plist */,
+				C99E781C275F52DB0034049A /* BudgetModel.xcdatamodeld */,
+				C99E781F275F57590034049A /* CoreDataStore.swift */,
 				C9B05E1E274EDB6F003C097A /* Budget.swift */,
 			);
 			path = Budgeteer;
@@ -287,11 +293,13 @@
 				C9B05E662758C88E003C097A /* TransactionCell.swift in Sources */,
 				C9B05E1F274EDB6F003C097A /* Budget.swift in Sources */,
 				C9B05E2527535259003C097A /* CurrentBudgetViewController.swift in Sources */,
+				C99E7820275F57590034049A /* CoreDataStore.swift in Sources */,
 				C9B05E2127533003003C097A /* DeckCell.swift in Sources */,
 				C9A4231D2759813300E43EA2 /* TransactionDetailsViewController.swift in Sources */,
 				C9B05DF3274EDB25003C097A /* BudgeteerViewController.swift in Sources */,
 				C9B05DEF274EDB25003C097A /* AppDelegate.swift in Sources */,
 				C9B05DF1274EDB25003C097A /* SceneDelegate.swift in Sources */,
+				C99E781E275F52DB0034049A /* BudgetModel.xcdatamodeld in Sources */,
 				C9E7CB95275C65F7005B2903 /* AddTransactionViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -625,6 +633,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		C99E781C275F52DB0034049A /* BudgetModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				C99E781D275F52DB0034049A /* BudgetModel.xcdatamodel */,
+			);
+			currentVersion = C99E781D275F52DB0034049A /* BudgetModel.xcdatamodel */;
+			path = BudgetModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = C9B05DE3274EDB25003C097A /* Project object */;
 }

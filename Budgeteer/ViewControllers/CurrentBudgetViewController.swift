@@ -57,26 +57,11 @@ class CurrentBudgetViewController: UIViewController, UITableViewDelegate, UITabl
             let unwrappedThisBudget = thisBudget,
             let unwrappedTransactions = unwrappedThisBudget.transactions
         else {
-//            print("else")
             return UITableViewCell()
         }
-//        print("unwrappedTransactions: \(unwrappedTransactions)")
+        
         let transactionSlot = unwrappedTransactions[rowNumberToDisplay]
-        
-//        var sign = "+"
-//        let amountDouble = transactionSlot.amount
-//        var amountString = String(format: "%.2f", amountDouble)
-//        if(amountDouble < 0) {
-//            sign = "-"
-//            amountString = String(format: "%.2f", fabs(amountDouble))
-//        }
-        
-//        let textForLabel = sign + "  $" + amountString + "          " + transactionSlot.description
-        
-//        cell.textLabel?.text = textForLabel
         cell.update(with: transactionSlot.amount, and: transactionSlot.description)
-        
-//        cell.delegate = self
         
         return cell
     }

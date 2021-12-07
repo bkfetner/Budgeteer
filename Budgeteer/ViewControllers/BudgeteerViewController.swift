@@ -1,24 +1,15 @@
 import UIKit
 
+protocol BudgeteerStore {
+    func storeBudget(budget: Budget)
+    func updateBudgetBalance(_ budgetId: Int, balance: Double)
+    func getAllBudgetItems() -> [Budget]
+    func storeTransaction(transaction: Transaction)
+    func deleteTransaction(_ budgetId: Int, _ transactionId: Int)
+}
+
 class BudgeteerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, DeckCellProtocol, CurrentBudgetDeleteTransactionDelegate {
     
-    var budgetDeck: [Budget] = [
-        Budget(budgetId: 0, name: "Bob1", balance: 2.22, transactions: [Transaction(transactionId: 1, budgetId: 0, amount: 2.22, description: "Initial Funds")]),
-        Budget(budgetId: 1, name: "Bob2", balance: 4.1, transactions: [Transaction(transactionId: 1, budgetId: 1, amount: 4.1, description: "Initial Funds")]),
-        Budget(budgetId: 2, name: "Bob3", balance: 6.543, transactions: [Transaction(transactionId: 1, budgetId: 2, amount: 6.543, description: "Initial Funds")]),
-        Budget(budgetId: 3, name: "Bob4", balance: 8.789, transactions: [Transaction(transactionId: 1, budgetId: 3, amount: 8.789, description: "Initial Funds")]),
-        Budget(budgetId: 4, name: "Bob5", balance: 10, transactions: [Transaction(transactionId: 1, budgetId: 4, amount: 10, description: "Initial Funds")]),
-        Budget(budgetId: 5, name: "Bob6", balance: 12, transactions: [Transaction(transactionId: 1, budgetId: 5, amount: 12, description: "Initial Funds")]),
-        Budget(budgetId: 6, name: "Bob7", balance: 14, transactions: [Transaction(transactionId: 1, budgetId: 6, amount: 14, description: "Initial Funds")]),
-        Budget(budgetId: 7, name: "Bob8", balance: 16, transactions: [Transaction(transactionId: 1, budgetId: 7, amount: 16, description: "Initial Funds")]),
-        Budget(budgetId: 8, name: "Bob9", balance: 18, transactions: [Transaction(transactionId: 1, budgetId: 8, amount: 18, description: "Initial Funds")]),
-        Budget(budgetId: 9, name: "Bob10", balance: 15, transactions: [Transaction(transactionId: 1, budgetId: 9, amount: 20, description: "Initial Funds"), Transaction(transactionId: 2, budgetId: 9, amount: -5, description: "Cookie")])
-    ]
-    
-    var selectedBudget: Budget?
-    var newBudgetToCreate: Budget?
-    var createButtonPressed: Bool = false
-
     @IBOutlet weak var nameNewBudgetInput: UITextField!
     @IBOutlet weak var startingAmountInput: UITextField!
     @IBOutlet weak var deckTableView: UITableView!
@@ -26,8 +17,18 @@ class BudgeteerViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBOutlet weak var invalidNameOutlet: UILabel!
     @IBOutlet weak var invalidAmountOutlet: UILabel!
     
+    let store: BudgeteerStore = CoreDataStore()
+    
+    var budgetDeck: [Budget] = []
+    
+    var selectedBudget: Budget?
+    var newBudgetToCreate: Budget?
+    var createButtonPressed: Bool = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        budgetDeck = store.getAllBudgetItems()
         
         navigationItem.title = "Budgeteer"
         
@@ -57,6 +58,8 @@ class BudgeteerViewController: UIViewController, UITableViewDelegate, UITableVie
             return
         }
         budgetDeck.append(newBudgetForDeck)
+        store.storeBudget(budget: newBudgetForDeck)
+        store.storeTransaction(transaction: initialTransaction)
         selectedBudget = budgetDeck[newBudgetId]
         
         let lastItemIndex = budgetDeck.count - 1
@@ -64,9 +67,6 @@ class BudgeteerViewController: UIViewController, UITableViewDelegate, UITableVie
         deckTableView.beginUpdates()
         deckTableView.insertRows(at: [newItmeIndexPath], with: .fade)
         deckTableView.endUpdates()
-        
-//        nameNewBudgetInput.text = nil
-//        startingAmountInput.text = nil
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -99,10 +99,6 @@ class BudgeteerViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        for i in 0..<budgetDeck.count {
-            print("budgetDeck[i]: \(budgetDeck[i])\n")
-        }
-        
         if createButtonPressed {
             createButtonPressed = false
             guard let testBudgetName = nameNewBudgetInput.text,
@@ -147,7 +143,10 @@ class BudgeteerViewController: UIViewController, UITableViewDelegate, UITableVie
                 for j in 0..<unwrappedTransaction.count {
                     if unwrappedTransaction[j].transactionId == transactionId {
                         budgetDeck[i].transactions?.remove(at: j)
+                        print("unwrappedTransaction[j]: \n\(unwrappedTransaction[j])")
+                        store.deleteTransaction(unwrappedTransaction[j].budgetId, unwrappedTransaction[j].transactionId)
                         budgetDeck[i].balance = newBalance
+                        store.updateBudgetBalance(budgetDeck[i].budgetId, balance: newBalance)
                         break
                     }
                 }
@@ -160,7 +159,9 @@ class BudgeteerViewController: UIViewController, UITableViewDelegate, UITableVie
         for i in 0..<budgetDeck.count {
             if budgetDeck[i].budgetId == selectedBudget?.budgetId {
                 budgetDeck[i].transactions?.append(newTransaction)
+                store.storeTransaction(transaction: newTransaction)
                 budgetDeck[i].balance = newBalance
+                store.updateBudgetBalance(budgetDeck[i].budgetId, balance: newBalance)
                 break
             }
         }

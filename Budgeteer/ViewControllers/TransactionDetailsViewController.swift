@@ -17,7 +17,6 @@ class TransactionDetailsViewController: UIViewController {
         super.viewDidLoad()
         
         navigationItem.title = "Transaction Details"
-//        print("thisTransaction: \(thisTransaction)");
         
         guard let unwrappedTransaction = thisTransaction else {
             return
@@ -35,10 +34,7 @@ class TransactionDetailsViewController: UIViewController {
         guard let unwrappedTransaction = thisTransaction else {
             return
         }
-        
-//        presentedViewController?.dismiss(animated: true, completion: nil)
-        
-        //dismiss when using navigation controller
+
         _ = navigationController?.popViewController(animated: true)
         delegate?.transactionToDelete(unwrappedTransaction.transactionId)
     }

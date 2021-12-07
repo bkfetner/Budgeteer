@@ -6,8 +6,6 @@ class TransactionCell: UITableViewCell {
     @IBOutlet weak var transactionDescription: UILabel!
     
     func update(with updateTransactionAmount: Double, and updateTransactionDescription: String) {
-//        String(format: "%.2f", updateBudgetAmount)
-        
         var stringTransactionAmount = "+  $\(String(format: "%.2f", updateTransactionAmount))"
         if(updateTransactionAmount < 0) {
             stringTransactionAmount = "-  $\(String(format: "%.2f", fabs(updateTransactionAmount)))"

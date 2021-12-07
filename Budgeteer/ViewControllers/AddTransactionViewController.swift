@@ -50,6 +50,7 @@ class AddTransactionViewController: UIViewController {
         if addPositiveFunds == false {
             doubleAmountToAdd = doubleAmountToAdd * -1
         }
+        
         _ = navigationController?.popViewController(animated: true)
         delegate?.addTransaction(doubleAmountToAdd, unwrappedDescription)
     }
