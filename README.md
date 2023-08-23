@@ -1,4 +1,4 @@
-# Budgeteer - Your iOS Budget Manager
+# Budgeteer - An iOS Budget Manager
 
 ## Overview
 
