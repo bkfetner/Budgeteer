@@ -37,6 +37,6 @@ This project is licensed under the [MIT License](LICENSE.md). You are free to us
 
 ### Project Author
 - **Bryan Fetner**
-  - GitHub: [Your GitHub Profile](https://github.com/bkfetner)
-  - LinkedIn: [Your LinkedIn Profile](https://www.linkedin.com/in/bfetner/)
+  - GitHub: [https://github.com/bkfetner](https://github.com/bkfetner)
+  - LinkedIn: [https://www.linkedin.com/in/bfetner/](https://www.linkedin.com/in/bfetner/)
 
